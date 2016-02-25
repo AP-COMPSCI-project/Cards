@@ -3,18 +3,27 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+Represents a single playing card. Has a suit, rank, image and status (face up or face down).
+*/
+
 public class Card implements Comparable<Card> {
     private final Suit suit;
     private final Rank rank;
     private BufferedImage image;
     private boolean faceUp;
 
+    /**
+    Only constructor for the Card class. Sets up the card as face down, and attempts to load
+     an image based on the card's suit and rank values. If it cannot load the image, it will
+     print a message with the path and name of the image that it tried to load (but couldn't find).
+    */
     public Card(Suit suit, Rank rank) {
         this.suit = suit;
         this.rank = rank;
         faceUp = false;
 
-        String filename = "src/resources/" + rank.name() + "of" + suit.name() + ".png";
+        String filename = "src/resources/" + rank.name() + "of" + suit.name() + ".jpeg";
         try {
             image = ImageIO.read(new File(filename));
         } catch (IOException e) {
