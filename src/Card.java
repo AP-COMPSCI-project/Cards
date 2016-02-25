@@ -10,8 +10,18 @@ Represents a single playing card. Has a suit, rank, image and status (face up or
 public class Card implements Comparable<Card> {
     private final Suit suit;
     private final Rank rank;
-    private BufferedImage image;
+    private BufferedImage face;
+    private static BufferedImage back;
     private boolean faceUp;
+
+    // Initializes BufferedImage back
+    static {
+        try {
+            back = ImageIO.read(new File("src/resources/cardback.jpeg"));
+        } catch (IOException e) {
+            System.out.println("cardback.jpeg could not be loaded");
+        }
+    }
 
     /**
     Only constructor for the Card class. Sets up the card as face down, and attempts to load
@@ -25,7 +35,7 @@ public class Card implements Comparable<Card> {
 
         String filename = "src/resources/" + rank.name() + "of" + suit.name() + ".jpeg";
         try {
-            image = ImageIO.read(new File(filename));
+            face = ImageIO.read(new File(filename));
         } catch (IOException e) {
             System.out.println("Error: Could not load image resource \"" + filename + "\"");
         }
@@ -43,9 +53,18 @@ public class Card implements Comparable<Card> {
     @Override
     public String toString() { return rank + " of " + suit; }
 
+    /**
+     Gets the face (the side with the suit and rank) of this card.
+     */
+    public BufferedImage getFace() { return face; }
+
+    /**
+     Gets the back of this card.
+     */
+    public BufferedImage getBac() { return back; }
+
     public Suit getSuit() { return suit; }
     public Rank getRank() { return rank; }
-    public BufferedImage getImage() { return image; }
     public boolean isFaceUp() { return faceUp; }
     public void flip() { faceUp = !faceUp; }
     public boolean isRed() { return suit == Suit.HEARTS || suit == Suit.DIAMONDS; }
